@@ -1,8 +1,8 @@
 # Deploy microservices on Kubernetes
 
-Kubernetes (AKA k8s) has gained widespread adoption in recent years as a platform for microservices due to its ability to seamlessly automate app deployment at scale. Pinterest uses a suite of over 1000 microservices to power their “discovery engine”. Imagine having to configure and manage servers to run these services manually. It’s an Engineer’s nightmare to say the least.
+Kubernetes (k8s) has gained widespread adoption as a platform for microservices due to its ability to seamlessly automate app deployment at scale.
 
-Kubernetes bills itself as “a portable, extensible open-source platform for managing containerized workloads and services”. In simple terms, Kubernetes helps to automate the deployment and management of containerized applications. This means we can package an app (code, dependencies and config) in a container and hand it over to Kubernetes to deploy and scale without worrying about our infrastructure. Under the hood, Kubernetes decides where to run what, monitors the systems and fixes things if something goes wrong.
+Kubernetes touts itself as “a portable, extensible open-source platform for managing containerized workloads and services”. In simple terms, Kubernetes helps to automate the deployment and management of containerized applications. This means we can package an app (code, dependencies and config) in a container and hand it over to Kubernetes to deploy and scale without worrying about our infrastructure. Under the hood, Kubernetes decides where to run what, monitors the systems and fixes things if something goes wrong.
 
 ## Microservice architecture
 
