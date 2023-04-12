@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: yolo-backend
+  annotations:
+    description: "Creates the backend service to expose port 5000"
+spec:
+  selector:
+    app: backend
+  ports:
+    - name: http
+      port: 5000
+      targetPort: 5000
+  type: LoadBalancer

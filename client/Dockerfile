@@ -4,6 +4,7 @@ FROM node:13.12.0-alpine
 
 # Set the working directory to /app inside the container
 WORKDIR /app
+ENV CI=true
 
 #Copy JSON
 COPY package*.json ./
