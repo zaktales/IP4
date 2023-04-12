@@ -1,46 +1,37 @@
----
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
-  name: backend-statefulset
-  annotations:
-    description: "This is a yaml file for creating a backend pod and mongo , its a stateful set"
+  name: backend
+  labels:
+    appName: yolobackend
+    serverClass: backend
 spec:
-  serviceName: "mongo"
-  replicas: 1
   selector:
     matchLabels:
-      app: backend
+      app: yolo-backend
+      tier: backend
+      track: stable
+  replicas: 1
   template:
     metadata:
       labels:
-        app: backend
+        app: yolo-backend
+        tier: backend
+        track: stable
     spec:
       containers:
-      - name: backend
-        image: zaktales/yolo-backend:v1.0.1
-        ports:
-        - containerPort: 5000
-        env:
-        - name: MONGODB_URI
-          valueFrom:
-            secretKeyRef:
-              name: db-secrets
-              key: mongodb-uri
-        volumeMounts:
-        - name: data
-          mountPath: /app/data
-      - name: mongo
-        image: mongo
-        ports:
-        - containerPort: 27017
-        volumeMounts:
-        - name: data
-          mountPath: /data/db
+        - name: yolo-backend
+          image: zaktales/yolo-backend:v1.0.3
+          ports:
+            - name: http
+              containerPort: 5000
+          volumeMounts:
+            - name: data
+              mountPath: /data
       volumes:
-      - name: data
-        persistentVolumeClaim:
-          claimName: server-pvc
+        - name: data
+          persistentVolumeClaim:
+            claimName: server-pvc
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -48,7 +39,7 @@ metadata:
   name: server-pvc
 spec:
   accessModes:
-  - ReadWriteOnce
+    - ReadWriteOnce
   resources:
     requests:
       storage: 500Mi

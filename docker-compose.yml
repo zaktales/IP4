@@ -1,53 +1,27 @@
 version: '3.1'
-networks:
-  network1:
-
 services:
-
-  mongodb:
-    image: mongo:latest
-    restart: always
-    container_name: mongodb
-    networks:
-      - network1
-    volumes:
-      - mongo_vol:/data/db
-    environment:
-      MONGO_INITDB_DATABASE: yolomy
-    ports:
-      - "27018:27017"
-
-  backend:
-    #build: ./backend
-    #container_name: yolo-backend
-    image: zaktales/yolo-backend:v1.0.2
-    networks:
-      - network1
-    environment:
-        MONGODB_URI: mongodb://mongodb:27017/yolomy
-        MONGO_INITDB_DATABASE: yolomy
+  server:
+    image: zaktales/yolo-backend:v1.0.3
     ports:
       - "5000:5000"
-    volumes:
-      - mongo_vol:/data/db
-    depends_on:
-        - mongodb
-
-  client:
-    #build: ./client
-    #container_name: yolo-client
-    image: zaktales/yolo-client:v1.0.2
+    env_file:
+     - ./backend/.env
     networks:
-      - network1
-    tty: true
+      - yolo_net
+    volumes:
+      - yolovol:/var/lib/docker/volumes/yolovol/_data
+  client:
+    image: zaktales/yolo-client:v1.0.3
     ports:
       - "3000:3000"
-    depends_on:
-      - backend
-    stdin_open: true
+    networks:
+      - yolo_net
     volumes:
-      - mongo_vol:/data/db
-  
+      - yolovol:/var/lib/docker/volumes/yolovol/_data
+    depends_on:
+      - server
+    stdin_open: true
+networks:
+  yolo_net:
 volumes:
-  mongo_vol:
-    driver: local
+  yolovol:
